@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">TreePedia</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_datapohon">Data Pohon</string>
+    <string name="nav_historypohon">History Pohon</string>
+    <string name="nav_peta">Peta</string>
+    <string-array name="nav_item_activity_titles">
+        <item>Home</item>
+        <item>Data Pohon</item>
+        <item>History Pohon</item>
+        <item>Peta</item>
+    </string-array>
+    <string-array name="android_dropdown_kegiatan">
+        <item>Pemangkasan Pohon</item>
+        <item>Penebangan Pohon</item>
+    </string-array>
+    <string-array name="android_dropdown_kondisi">
+        <item>Sehat</item>
+        <item>Cukup</item>
+        <item>Keropos</item>
+        <item>Mati</item>
+    </string-array>
+    <string name="action_logout">Logout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="copyright">SFPCC</string>
+</resources>

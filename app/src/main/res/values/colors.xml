@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ADD537</color>
+    <color name="colorPrimaryDark">#ADD537</color>
+    <color name="colorAccent">#ADD537</color>
+    <color name="list_divider">#d9d9d9</color>
+    <color name="list_row_start_color">#ffffff</color>
+    <color name="list_row_end_color">#ffffff</color>
+    <color name="list_row_hover_start_color">#ebeef0</color>
+    <color name="list_row_hover_end_color">#ebeef0</color>
+    <color name="kondisiSehat">#2db92d</color>
+    <color name="kondisiCukup">#ffff00</color>
+    <color name="kondisiKeropos">#e6ac00</color>
+    <color name="kondisiMati">#e60000</color>
+    <color name="color_input">#598919</color>
+    <color name="color_eror">#f22a37</color>
+    <color name="color_with">#ffffff</color>
+    <color name="color_white">#ffffff</color>
+    <color name="color_blue">#2e8ece</color>
+</resources>

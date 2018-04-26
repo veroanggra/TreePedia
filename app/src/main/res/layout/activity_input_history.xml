@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_input_history"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="id.web.proditipolines.amop.Activity.InputHistoryActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtNo"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtIdPohon"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                    android:id="@+id/tblQrScanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="QrScanner"
+                    android:text="QR Scanner" />
+
+            <TextView
+                    android:id="@+id/txtQrCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tblQrScanner"
+                    android:textSize="20dp"
+                    android:textColor="#000"
+                    android:gravity="center"
+                    android:padding="5dp"/>
+
+            <Spinner
+                android:id="@+id/kegiatan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#009A4C"
+                android:entries="@array/android_dropdown_kegiatan"
+                android:paddingBottom="15dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="15dp"
+                style="@style/Widget.AppCompat.Spinner.Underlined"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Keterangan"
+                android:id="@+id/keterangan"
+                android:paddingTop="15dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/tblSimpan"
+        android:layout_gravity="bottom|right"/>
+</LinearLayout>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_input_pohon"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="id.web.proditipolines.amop.Activity.InputPohonActivity">
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/tblQrScanner"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="QrScanner"
+                    android:text="QR Scanner" />
+
+                <Button
+                    android:id="@+id/tblFoto"
+                    android:layout_width="121dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="TakePhoto"
+                    android:text="Ambil Foto"
+                    android:layout_below="@+id/tblQrScanner"
+                    android:layout_toStartOf="@+id/txtQrCode"
+                    android:layout_marginTop="24dp"
+                    android:layout_toLeftOf="@+id/txtQrCode" />
+
+                <TextView
+                    android:id="@+id/txtQrCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/tblQrScanner"
+                    android:text=""
+                    android:textSize="13dp"
+                    android:layout_above="@+id/tblFoto" />
+
+                <ImageView
+                    android:id="@+id/camera"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@+id/tblFoto"
+                    android:layout_alignTop="@+id/tblFoto"/>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnLokasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set Lokasi" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtId"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtIdPegwai"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtLatitude"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtLontitude"
+                android:gravity="center"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Jenis Pohon"
+                android:id="@+id/jenispohon"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Usia"
+                android:id="@+id/usia"
+                android:inputType="number"/>
+
+            <Spinner
+                android:id="@+id/kondisi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#009A4C"
+                android:entries="@array/android_dropdown_kondisi"
+                android:paddingTop="17dp"
+                style="@style/Widget.AppCompat.Spinner.Underlined"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/keterangan"
+                android:hint="Keterangan"
+                android:gravity="top"
+                android:layout_weight="1"/>
+            </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Simpan"
+        android:id="@+id/btnSimpan"
+        android:layout_gravity="bottom|right"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:id="@+id/btnUpdate"
+        android:layout_gravity="bottom|right"/>
+</LinearLayout>

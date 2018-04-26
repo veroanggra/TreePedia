@@ -1,0 +1,58 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="id.web.proditipolines.amop.Fragment.HomeFragment"
+    android:id="@+id/frame_container">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp">
+
+            <ImageView
+                android:layout_width="0sp"
+                android:layout_height="50dp"
+                android:layout_weight="1.5"
+                android:gravity="right|center_vertical"
+                android:src="@drawable/ic_logo"
+                android:id="@+id/logo2"/>
+
+            <TextView
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textSize="30dp"
+                android:textColor="#000000"
+                android:gravity="left|center_vertical"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Chart Data Pohon"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"/>
+
+        </LinearLayout>
+
+
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

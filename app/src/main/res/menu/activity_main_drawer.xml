@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/nav_home" />
+        <item
+            android:id="@+id/nav_datapohon"
+            android:icon="@drawable/ic_tree_black_24dp"
+            android:title="@string/nav_datapohon" />
+        <item
+            android:id="@+id/nav_historypohon"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="@string/nav_historypohon" />
+        <item
+            android:id="@+id/nav_peta"
+            android:icon="@drawable/ic_map_black_24dp"
+            android:title="@string/nav_peta" />
+    </group>
+</menu>

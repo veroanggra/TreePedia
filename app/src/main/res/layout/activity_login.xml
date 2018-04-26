@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    tools:context="id.web.proditipolines.amop.Activity.LoginActivity">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:src="@drawable/logo_treepedia"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/logomop"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26dp"
+        android:layout_below="@id/logomop"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/txtUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:hint="Username"
+        app:met_baseColor="@color/color_input"
+        app:met_errorColor="#f22a37"
+        app:met_floatingLabel="highlight"
+        app:met_iconLeft="@drawable/ic_user"
+        app:met_primaryColor="@color/color_blue" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/txtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txtUsername"
+        android:hint="Password"
+        android:password="true"
+        app:met_baseColor="@color/color_input"
+        app:met_errorColor="@color/color_eror"
+        app:met_floatingLabel="highlight"
+        app:met_iconLeft="@mipmap/ic_lock_open_black_24dp"
+        app:met_primaryColor="@color/color_blue" />
+
+
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:text="Login"
+        android:textColor="@color/color_white"
+        android:textStyle="bold"
+        fbutton:buttonColor="@color/colorPrimary"
+        fbutton:cornerRadius="10dp"
+        android:layout_margin="@dimen/margin_top"
+        fbutton:shadowColor="@color/color_input"
+        android:layout_below="@id/txtPassword"
+        fbutton:shadowEnabled="true"
+        fbutton:shadowHeight="2dp" />
+
+
+</RelativeLayout>
