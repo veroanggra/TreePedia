@@ -1,23 +1,19 @@
-package id.web.proditipolines.amop.Util;
+package id.web.proditipolines.amop.util;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import id.web.proditipolines.amop.Activity.LoginActivity;
-import id.web.proditipolines.amop.Activity.MainActivity;
+import id.web.proditipolines.amop.activity.LoginActivity;
+import id.web.proditipolines.amop.activity.MainActivity;
 
 /**
  * Created by user on 06/06/2017.
  */
 
-public class helper {
+public class Helper {
 
     SharedPreferences.Editor editor;
     Context ctx;
@@ -27,7 +23,7 @@ public class helper {
     public static final String ID ="id";
     public static final String USERNAME ="username";
     public static final String PASSWORD ="password";
-    public helper (Context context){
+    public Helper(Context context){
         this.ctx =context;
         preferences = ctx.getSharedPreferences("login", 0);
         editor = preferences.edit();

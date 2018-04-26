@@ -1,10 +1,9 @@
-package id.web.proditipolines.amop.Activity;
+package id.web.proditipolines.amop.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -12,7 +11,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.zxing.Result;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,9 +18,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import id.web.proditipolines.amop.App.AppController;
-import id.web.proditipolines.amop.R;
+import id.web.proditipolines.amop.base.AppController;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+import static id.web.proditipolines.amop.util.AppConstans.TAG_SUCCESS;
 
 public class ScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
@@ -32,8 +31,6 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     private ZXingScannerView mScannerView;
 
     private static final String TAG = ScannerActivity.class.getSimpleName();
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +60,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
 
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Response: " + response.toString());
+                Log.d(TAG, "Response: " + response);
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -102,7 +99,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             @Override
             protected Map<String, String> getParams() {
                 // Posting parameters ke post url
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("qrcode", qrcode);
 
                 return params;
@@ -111,12 +108,5 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         };
 
         AppController.getInstance().addToRequestQueue(strReq, tag_json_obj);
-//        InputPohonActivity.txtQrCode.setText(qrcode);
-//        onBackPressed();
-//        cariid();
-    }
-
-    private void cariid(){
-
     }
 }

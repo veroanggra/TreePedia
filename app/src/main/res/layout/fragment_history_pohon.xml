@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="id.web.proditipolines.amop.Fragment.HistoryPohonFragment">
+    tools:context="id.web.proditipolines.amop.fragment.HistoryPohonFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.SwipeRefreshLayout

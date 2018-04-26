@@ -1,9 +1,9 @@
-package id.web.proditipolines.amop.Activity;
+package id.web.proditipolines.amop.activity;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +12,19 @@ import com.squareup.picasso.Picasso;
 
 import id.web.proditipolines.amop.R;
 
+import static id.web.proditipolines.amop.util.AppConstans.TAG_ID;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_ID_PEGAWAI;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_JENIS_POHON;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_KETERANGAN;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_KONDISI_POHON;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_LAST_UPDATE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_LATITUDE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_LONGTITUDE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_QRCODE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_STATUS;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_USIA_POHON;
+import static id.web.proditipolines.amop.util.Server.URL_MONITOR;
+
 public class DetailPohonActivity extends AppCompatActivity {
 
     ImageView imageView;
@@ -19,16 +32,18 @@ public class DetailPohonActivity extends AppCompatActivity {
     String id;
     public static String idx, id_pegawai, last_update, jenis_pohon, kondisi_pohon, latitude, longitude, usia_pohon, ket, status, code, foto_pohon;
 
-
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_pohon);
 
         ActionBar menu = getSupportActionBar();
-        menu.setDisplayShowHomeEnabled(true);
-        menu.setDisplayHomeAsUpEnabled(true);
-        menu.setTitle("Detail Pohon");
+        if (menu != null) {
+            menu.setDisplayShowHomeEnabled(true);
+            menu.setDisplayHomeAsUpEnabled(true);
+            menu.setTitle("Detail Pohon");
+        }
 
         imageView = (ImageView) findViewById(R.id.imageView);
         mId = (TextView) findViewById(R.id.id);
@@ -44,34 +59,32 @@ public class DetailPohonActivity extends AppCompatActivity {
         mQrcode = (TextView) findViewById(R.id.qrcode);
 
         Bundle bundle = getIntent().getExtras();
-
-        try{
-            id = bundle.getString("id");
-        }catch (Exception e){
-        }
-
-        if(id != null) {
-
-            mId.setText(bundle.getString("id"));
-            mIdPegawai.setText(bundle.getString("id_pegawai"));
-            mLastUpdate.setText(bundle.getString("last_update"));
-            mJenisPohon.setText(bundle.getString("jenis_pohon"));
-            mUsiaPohon.setText(bundle.getString("usia_pohon"));
-            mKondisiPohon.setText(bundle.getString("kondisi_pohon"));
-            mLatitude.setText(bundle.getString("latitude"));
-            mLongitude.setText(bundle.getString("longtitude"));
-            mKeterangan.setText(bundle.getString("keterangan"));
-            String statuspohon = bundle.getString("status");
-            if(statuspohon.equals("1")){
-                mStatus.setText("Tertanam");
-            }else{
-                mStatus.setText("Ditebang");
+        String statusPohon = "1";
+        if (bundle != null) {
+            try {
+                id = bundle.getString(TAG_ID);
+                mId.setText(id);
+                mIdPegawai.setText(bundle.getString(TAG_ID_PEGAWAI));
+                mLastUpdate.setText(bundle.getString(TAG_LAST_UPDATE));
+                mJenisPohon.setText(bundle.getString(TAG_JENIS_POHON));
+                mUsiaPohon.setText(bundle.getString(TAG_USIA_POHON));
+                mKondisiPohon.setText(bundle.getString(TAG_KONDISI_POHON));
+                mLatitude.setText(bundle.getString(TAG_LATITUDE));
+                mLongitude.setText(bundle.getString(TAG_LONGTITUDE));
+                mKeterangan.setText(bundle.getString(TAG_KETERANGAN));
+                String statuspohon = bundle.getString(TAG_STATUS);
+                if (statuspohon != null && statuspohon.equals(statusPohon)) {
+                    mStatus.setText("Tertanam");
+                } else {
+                    mStatus.setText("Ditebang");
+                }
+                mQrcode.setText(bundle.getString(TAG_QRCODE));
+                String url = URL_MONITOR + bundle.getString("foto_pohon");
+                Picasso.with(DetailPohonActivity.this).load(url).error(R.mipmap.ic_launcher).into(imageView);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            mQrcode.setText(bundle.getString("qrcode"));
-
-            String url = "http://monitoringpohon.semarangvice.com/dist/img/pohon/" + bundle.getString("foto_pohon");
-            Picasso.with(DetailPohonActivity.this).load(url).error(R.mipmap.ic_launcher).into(imageView);
-        }else {
+        } else {
             mId.setText(idx);
             mIdPegawai.setText(id_pegawai);
             mLastUpdate.setText(last_update);
@@ -81,9 +94,9 @@ public class DetailPohonActivity extends AppCompatActivity {
             mLatitude.setText(latitude);
             mLongitude.setText(longitude);
             mKeterangan.setText(ket);
-            if (status.equals("1")){
+            if (status.equals(statusPohon)) {
                 mStatus.setText("Tertanam");
-            }else{
+            } else {
                 mStatus.setText("Ditebang");
             }
             mQrcode.setText(code);
