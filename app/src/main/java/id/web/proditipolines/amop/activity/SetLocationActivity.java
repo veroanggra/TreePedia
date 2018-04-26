@@ -1,27 +1,15 @@
-package id.web.proditipolines.amop.Activity;
+package id.web.proditipolines.amop.activity;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,14 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -49,12 +31,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Set;
-
 import id.web.proditipolines.amop.R;
-import id.web.proditipolines.amop.Util.LocationFinder;
+import id.web.proditipolines.amop.util.LocationFinder;
 
-import static id.web.proditipolines.amop.Activity.DetailPohonActivity.idx;
+import static id.web.proditipolines.amop.activity.DetailPohonActivity.idx;
 
 public class SetLocationActivity extends AppCompatActivity implements OnMapReadyCallback{
 
@@ -102,15 +82,15 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputPohonActivity.mTextViewLat.setText(""+txtLatitude.getText());
-                InputPohonActivity.mTextViewLon.setText(""+txtLongitude.getText());
+                InputPohonActivity.mTextViewLat.setText(txtLatitude.getText());
+                InputPohonActivity.mTextViewLon.setText(txtLongitude.getText());
                 onBackPressed();
             }
         });
 
 
-        txtLatitude.setText(""+lat);
-        txtLongitude.setText(""+longi);
+        txtLatitude.setText(String.valueOf(lat));
+        txtLongitude.setText(String.valueOf(longi));
 
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.lokasi);
         mapFrag.onCreate(savedInstanceState);
@@ -148,8 +128,8 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
             public void onMarkerDragEnd(Marker arg0) {
                 // TODO Auto-generated method stub
                 LatLng markerLocation = mCurrLocationMarker.getPosition();
-                txtLatitude.setText(""+markerLocation.latitude);
-                txtLongitude.setText(""+markerLocation.longitude);
+                txtLatitude.setText(String.valueOf(markerLocation.latitude));
+                txtLongitude.setText(String.valueOf(markerLocation.longitude));
 //                Toast.makeText(SetLocationActivity.this,"latitude"+ markerLocation.latitude + "", Toast.LENGTH_LONG).show();
                 Log.d("Marker", "finished");
             }
@@ -243,7 +223,8 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
                                 break;
 
                         }
-                    } catch (JSONException je) {
+                    } catch (JSONException ignored) {
+                        ignored.printStackTrace();
                     }
                 }
 
@@ -315,9 +296,10 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
 
     private void gpsSwitch() {
         LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-        gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        networkStatus = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
+        if (locationManager != null) {
+            gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            networkStatus = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }
         if (!gpsStatus && !networkStatus) {
             final Intent poke = new Intent();
             poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");

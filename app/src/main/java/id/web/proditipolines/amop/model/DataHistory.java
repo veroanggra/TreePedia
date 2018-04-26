@@ -1,23 +1,11 @@
-package id.web.proditipolines.amop.Data;
+package id.web.proditipolines.amop.model;
 
-/**
- * Created by user on 02/06/2017.
- */
 
 public class DataHistory {
     private String no, id_pohon, tanggal, kegiatan, keterangan, qrcode;
 
     public DataHistory() {
 
-    }
-
-    public DataHistory(String no, String id_pohon, String tanggal, String kegiatan, String keterangan, String qrcode) {
-        this.no = no;
-        this.id_pohon = id_pohon;
-        this.tanggal = tanggal;
-        this.kegiatan = kegiatan;
-        this.keterangan = keterangan;
-        this.qrcode = qrcode;
     }
 
     public String getNo() {

@@ -1,11 +1,11 @@
-package id.web.proditipolines.amop.Activity;
+package id.web.proditipolines.amop.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,29 +23,28 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import id.web.proditipolines.amop.App.AppController;
 import id.web.proditipolines.amop.R;
-import id.web.proditipolines.amop.Util.Server;
-import id.web.proditipolines.amop.Util.helper;
+import id.web.proditipolines.amop.base.AppController;
+import id.web.proditipolines.amop.util.Helper;
+
+import static id.web.proditipolines.amop.util.AppConstans.TAG_ID;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_MESSAGE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_PASSWORD;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_SUCCESS;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_USERNAME;
+import static id.web.proditipolines.amop.util.Server.URL_LOGIN;
 
 public class LoginActivity extends AppCompatActivity {
 
     ProgressDialog pDialog;
     Button btnLogin;
     EditText txtUsername, txtPassword;
-    helper help;
+    Helper help;
 
     int success;
     ConnectivityManager conMgr;
 
-    private String url = Server.URL + "login.php";
-
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
-    public final static String TAG_ID = "id";
-    public final static String TAG_USERNAME = "username";
-    public final static String TAG_PASSWORD = "password";
 
 
     String tag_json_obj = "json_obj_req";
@@ -54,18 +53,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        help = new helper(getApplicationContext());
+        help = new Helper(getApplicationContext());
 
         conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        {
-            if (conMgr.getActiveNetworkInfo() != null
-                    && conMgr.getActiveNetworkInfo().isAvailable()
-                    && conMgr.getActiveNetworkInfo().isConnected()) {
-            } else {
-                Toast.makeText(getApplicationContext(), "No Internet Connection",
-                        Toast.LENGTH_LONG).show();
+        if (conMgr != null) {
+            if (conMgr.getActiveNetworkInfo() == null || !conMgr.getActiveNetworkInfo().isAvailable() || !conMgr.getActiveNetworkInfo().isConnected()) {
+                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }
         }
+
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         txtUsername = (EditText) findViewById(R.id.txtUsername);
@@ -86,11 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                             && conMgr.getActiveNetworkInfo().isConnected()) {
                         checkLogin(username, password);
                     } else {
-                        Toast.makeText(getApplicationContext() ,"No Internet Connection", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     // Prompt user to enter credentials
-                    Toast.makeText(getApplicationContext() ,"Kolom tidak boleh kosong", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Kolom tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -103,11 +99,11 @@ public class LoginActivity extends AppCompatActivity {
         pDialog.setMessage("Logging in ...");
         showDialog();
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, URL_LOGIN, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.e(TAG, "Login Response: " + response.toString());
+                Log.e(TAG, "Login Response: " + response);
                 hideDialog();
 
                 try {
@@ -162,9 +158,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("username", username);
-                params.put("password", password);
+                Map<String, String> params = new HashMap<>();
+                params.put(TAG_USERNAME, username);
+                params.put(TAG_PASSWORD, password);
 
                 return params;
             }

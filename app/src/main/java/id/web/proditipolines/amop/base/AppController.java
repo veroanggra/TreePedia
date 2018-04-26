@@ -1,4 +1,4 @@
-package id.web.proditipolines.amop.App;
+package id.web.proditipolines.amop.base;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,9 +9,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-/**
- * Created by Kuncoro on 26/03/2016.
- */
 public class AppController extends Application {
 
     public static final String TAG = AppController.class.getSimpleName();
@@ -46,12 +43,6 @@ public class AppController extends Application {
     public <T> void addToRequestQueue(Request<T> req) {
         req.setTag(TAG);
         getRequestQueue().add(req);
-    }
-
-    public void cancelPendingRequests(Object tag) {
-        if (mRequestQueue != null) {
-            mRequestQueue.cancelAll(tag);
-        }
     }
 
     @Override

@@ -8,11 +8,13 @@
     <string name="nav_datapohon">Data Pohon</string>
     <string name="nav_historypohon">History Pohon</string>
     <string name="nav_peta">Peta</string>
+    <string name="nav_artikel">Artikel</string>
     <string-array name="nav_item_activity_titles">
         <item>Home</item>
         <item>Data Pohon</item>
         <item>History Pohon</item>
         <item>Peta</item>
+        <item>Artikel</item>
     </string-array>
     <string-array name="android_dropdown_kegiatan">
         <item>Pemangkasan Pohon</item>
@@ -29,4 +31,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="copyright">SFPCC</string>
+    <string name="isi_artikel">Isi artikel</string>
+    <string name="dot">...</string>
+    <string name="submit">submit</string>
 </resources>

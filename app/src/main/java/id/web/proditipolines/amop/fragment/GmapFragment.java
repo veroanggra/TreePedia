@@ -1,13 +1,12 @@
-package id.web.proditipolines.amop.Fragment;
+package id.web.proditipolines.amop.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,11 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -41,14 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import id.web.proditipolines.amop.Activity.DetailPohonActivity;
-import id.web.proditipolines.amop.Activity.InputPohonActivity;
-import id.web.proditipolines.amop.Data.DataPohon;
+import id.web.proditipolines.amop.activity.DetailPohonActivity;
 import id.web.proditipolines.amop.R;
 
-import static id.web.proditipolines.amop.Activity.DetailPohonActivity.idx;
-import static id.web.proditipolines.amop.Activity.InputPohonActivity.mTextViewLat;
-import static id.web.proditipolines.amop.Activity.InputPohonActivity.mTextViewLon;
+import static id.web.proditipolines.amop.activity.DetailPohonActivity.idx;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,38 +46,28 @@ import static id.web.proditipolines.amop.Activity.InputPohonActivity.mTextViewLo
 public class GmapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-//    GoogleApiClient mGoogleApiClient;
-//    LocationRequest mLocationRequest;
     MapView mapView;
     String[] id, id_pegawai, last_update, jenis_pohon, usia_pohon, kondisi_pohon, foto_pohon, keterangan, status, qrcode;
     int i, numData;
-    LatLng latLng[],latLngNow;
+    LatLng latLng[];
     Boolean markerD[];
     private Double[] latitude, longtitude;
-    AlertDialog.Builder dialog;
 
     private static final String TAG = GmapFragment.class.getSimpleName();
 
-    String tag_json_obj = "json_obj_req";
-
-    public GmapFragment() {
-        // Required empty public constructor
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_gmaps, container, false);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_gmaps, container, false);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mapView = (MapView) view.findViewById(R.id.maps);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
         getLokasi();
-//        if(getActivity().getIntent().getExtras()!=null){
-//            setupLocationRequest();
-//        }
-        return view;
     }
 
     private void getLokasi() {
@@ -95,7 +75,6 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
         JsonArrayRequest jArr = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-
                 numData = response.length();
                 Log.d(TAG, response.toString());
                 latLng = new LatLng[numData];
@@ -117,8 +96,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                     try {
                         JSONObject data = response.getJSONObject(i);
                         id[i] = data.getString("id");
-                        latLng[i] = new LatLng(data.getDouble("latitude"),
-                                data.getDouble("longtitude"));
+                        latLng[i] = new LatLng(data.getDouble("latitude"), data.getDouble("longtitude"));
                         id_pegawai[i] = data.getString("id_pegawai");
                         last_update[i] = data.getString("last_update");
                         jenis_pohon[i] = data.getString("jenis_pohon");
@@ -130,46 +108,46 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                         qrcode[i] = data.getString("qrcode");
                         latitude[i] = data.getDouble("latitude");
                         longtitude[i] = data.getDouble("longtitude");
-
                         markerD[i] = false;
-                        switch (kondisi_pohon[i]){
+                        switch (kondisi_pohon[i]) {
                             case "Sehat":
                                 mMap.addMarker(new MarkerOptions()
                                         .position(latLng[i])
                                         .title(foto_pohon[i])
-                                        .snippet(jenis_pohon[i] + "\n\n" +last_update[i])
+                                        .snippet(jenis_pohon[i] + "\n\n" + last_update[i])
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.sehat)));
                                 break;
                             case "Cukup":
                                 mMap.addMarker(new MarkerOptions()
                                         .position(latLng[i])
                                         .title(foto_pohon[i])
-                                        .snippet(jenis_pohon[i] + "\n\n" +last_update[i])
+                                        .snippet(jenis_pohon[i] + "\n\n" + last_update[i])
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.cukup)));
                                 break;
                             case "Keropos":
                                 mMap.addMarker(new MarkerOptions()
                                         .position(latLng[i])
                                         .title(foto_pohon[i])
-                                        .snippet(jenis_pohon[i] + "\n\n" +last_update[i])
+                                        .snippet(jenis_pohon[i] + "\n\n" + last_update[i])
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.keropos)));
                                 break;
                             case "Mati":
                                 mMap.addMarker(new MarkerOptions()
                                         .position(latLng[i])
                                         .title(foto_pohon[i])
-                                        .snippet(jenis_pohon[i] + "\n\n" +last_update[i])
+                                        .snippet(jenis_pohon[i] + "\n\n" + last_update[i])
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.mati)));
                                 break;
                             default:
                                 mMap.addMarker(new MarkerOptions()
                                         .position(latLng[i])
                                         .title(foto_pohon[i])
-                                        .snippet(jenis_pohon[i] + "\n\n" +last_update[i]));
+                                        .snippet(jenis_pohon[i] + "\n\n" + last_update[i]));
                                 break;
 
                         }
-                    } catch (JSONException je) {
+                    } catch (JSONException ignored) {
+                        Log.e(TAG, ignored.getMessage());
                     }
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng[i], 15.5f));
                 }
@@ -202,12 +180,11 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                                     markerD[i] = false;
                                 } else {
                                     Log.d(TAG, "show info");
-                                    // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15.5f));
                                     markerD[i] = true;
                                     marker.showInfoWindow();
-                                    Toast ts = Toast.makeText(getActivity(),"Ketuk sekali lagi pada marker untuk melihat detail",Toast.LENGTH_LONG);
+                                    Toast ts = Toast.makeText(getActivity(), "Ketuk sekali lagi pada marker untuk melihat detail", Toast.LENGTH_LONG);
                                     TextView v = (TextView) ts.getView().findViewById(android.R.id.message);
-                                    if( v != null)
+                                    if (v != null)
                                         v.setGravity(Gravity.CENTER);
                                     ts.show();
                                 }
@@ -220,7 +197,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 });
             }
 
-        } , new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -243,7 +220,6 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
@@ -254,6 +230,7 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 return null;
             }
 
+            @SuppressLint("InflateParams")
             @Override
             public View getInfoContents(Marker marker) {
                 View v = null;
@@ -273,62 +250,8 @@ public class GmapFragment extends Fragment implements OnMapReadyCallback {
                 } catch (Exception ev) {
                     System.out.print(ev.getMessage());
                 }
-
                 return v;
             }
         });
-
     }
-
-//    LocationListener mLocationListener = new LocationListener() {
-//        @Override
-//        public void onLocationChanged(Location location) {
-//            if (location != null) {
-////                mTextViewLat.setText(""+location.getLatitude());
-////                mTextViewLon.setText(""+location.getLongitude());
-//                latLngNow = new LatLng(location.getLatitude(),
-//                        location.getLongitude());
-//                mMap.addMarker(new MarkerOptions()
-//                        .position(latLngNow)
-//                        .title("Lokasi Sekarang"));
-//            }
-//        }
-//    };
-//
-//    GoogleApiClient.ConnectionCallbacks mConnectionCallbacks = new GoogleApiClient.ConnectionCallbacks() {
-//        @Override
-//        public void onConnected(Bundle bundle) {
-//            Log.i("onConnected()", "start");
-//            try {
-//                LocationServices.FusedLocationApi.requestLocationUpdates(
-//                        mGoogleApiClient, mLocationRequest, mLocationListener);
-//            } catch (SecurityException e) {
-//                Log.i("onConnected()","SecurityException: "+e.getMessage());
-//            }
-//        }
-//        @Override
-//        public void onConnectionSuspended(int i) {}
-//    };
-//
-//    GoogleApiClient.OnConnectionFailedListener mOnConnectionFailedListener = new GoogleApiClient.OnConnectionFailedListener() {
-//        @Override
-//        public void onConnectionFailed(ConnectionResult connectionResult) {
-//            Toast.makeText(getActivity(), connectionResult.toString(), Toast.LENGTH_LONG).show();
-//            Log.i("onConnected()", "SecurityException: " +connectionResult.toString());
-//        }
-//    };
-//
-//    protected synchronized void setupLocationRequest() {
-//        mLocationRequest = new LocationRequest();
-//        mLocationRequest.setInterval(10000);
-//        mLocationRequest.setFastestInterval(10000);
-//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-//                .addConnectionCallbacks(mConnectionCallbacks)
-//                .addOnConnectionFailedListener(mOnConnectionFailedListener)
-//                .addApi(LocationServices.API)
-//                .build();
-//        mGoogleApiClient.connect();
-//    }
-
 }
