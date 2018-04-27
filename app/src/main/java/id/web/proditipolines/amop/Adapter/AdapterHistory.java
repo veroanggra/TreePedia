@@ -1,4 +1,4 @@
-package id.web.proditipolines.amop.Adapter;
+package id.web.proditipolines.amop.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,16 +10,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import id.web.proditipolines.amop.Data.DataHistory;
 import id.web.proditipolines.amop.R;
-
-/**
- * Created by user on 02/06/2017.
- */
+import id.web.proditipolines.amop.model.DataHistory;
 
 public class AdapterHistory extends BaseAdapter {
     private Activity activity;
-    private LayoutInflater inflater;
     private List<DataHistory> items;
 
     public AdapterHistory(Activity activity, List<DataHistory> items) {
@@ -46,12 +41,8 @@ public class AdapterHistory extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (inflater == null)
-            inflater = (LayoutInflater) activity
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if (convertView == null)
-            convertView = inflater.inflate(R.layout.list_row_history, null);
+        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(R.layout.list_row_history, null);
 
         TextView no = (TextView) convertView.findViewById(R.id.no);
         TextView qrcode = (TextView) convertView.findViewById(R.id.qrcode);
@@ -66,8 +57,6 @@ public class AdapterHistory extends BaseAdapter {
         tanggal.setText(dataHistory.getTanggal());
         kegiatan.setText(dataHistory.getKegiatan());
         keterangan.setText(dataHistory.getKeterangan());
-
-
         return convertView;
     }
 }

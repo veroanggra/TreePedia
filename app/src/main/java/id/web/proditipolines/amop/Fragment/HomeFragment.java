@@ -1,28 +1,23 @@
-package id.web.proditipolines.amop.Fragment;
+package id.web.proditipolines.amop.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,8 +26,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import id.web.proditipolines.amop.R;
-
-import static id.web.proditipolines.amop.Activity.MainActivity.navItemIndex;
 
 public class HomeFragment extends Fragment{
 
@@ -43,19 +36,17 @@ public class HomeFragment extends Fragment{
 
     private static final String TAG = HomeFragment.class.getSimpleName();
 
-    public HomeFragment() {
-        // Required empty public constructor
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
-        barChart = (BarChart) v.findViewById(R.id.chart);
-
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        barChart = (BarChart) view.findViewById(R.id.chart);
         getData();
 
-        return v;
     }
 
     private void getData() {
@@ -76,20 +67,22 @@ public class HomeFragment extends Fragment{
                         jumlah[i] = data.getInt("jumlah");
 
                         entries.add(new BarEntry(jumlah[i], i));
-                    } catch (JSONException je) {
+                    } catch (JSONException ignored) {
+                        Log.e(TAG, ignored.getMessage());
                     }
                 }
 
                 BarDataSet dataset = new BarDataSet(entries, "");
 
-                ArrayList<String> labels = new ArrayList<String>();
+                ArrayList<String> labels = new ArrayList<>();
                 for (i = 0; i < numData; i++) {
                     try {
                         JSONObject data = response.getJSONObject(i);
                         kondisi_pohon[i] = data.getString("kondisi_pohon");
 
                         labels.add(kondisi_pohon[i]);
-                    } catch (JSONException je) {
+                    } catch (JSONException ignored) {
+                        Log.e(TAG, ignored.getMessage());
                     }
                 }
 

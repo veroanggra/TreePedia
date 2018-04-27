@@ -1,10 +1,11 @@
-package id.web.proditipolines.amop.Fragment;
+package id.web.proditipolines.amop.fragment;
 
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,59 +33,51 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import id.web.proditipolines.amop.Activity.InputHistoryActivity;
-import id.web.proditipolines.amop.Activity.InputPohonActivity;
-import id.web.proditipolines.amop.Activity.MainActivity;
-import id.web.proditipolines.amop.Adapter.AdapterHistory;
-import id.web.proditipolines.amop.App.AppController;
-import id.web.proditipolines.amop.Data.DataHistory;
-import id.web.proditipolines.amop.Data.DataPohon;
+import id.web.proditipolines.amop.activity.InputHistoryActivity;
+import id.web.proditipolines.amop.adapter.AdapterHistory;
+import id.web.proditipolines.amop.base.AppController;
+import id.web.proditipolines.amop.model.DataHistory;
 import id.web.proditipolines.amop.R;
-import id.web.proditipolines.amop.Util.Server;
+import id.web.proditipolines.amop.util.Server;
+
+import static id.web.proditipolines.amop.util.AppConstans.TAG_ID_POHON;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_KEGIATAN;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_KETERANGAN;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_MESSAGE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_NO;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_QRCODE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_SUCCESS;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_TANGGAL;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryPohonFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class HistoryPohonFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     ListView list;
     SwipeRefreshLayout swipe;
-    List<DataHistory> itemList = new ArrayList<DataHistory>();
+    List<DataHistory> itemList = new ArrayList<>();
     AdapterHistory adapterHistory;
     int success;
     AlertDialog dialog, alertDialog;
     FloatingActionButton fab2;
-    //EditText txt_no, txt_id_pohon, txt_tanggal, txt_keterangan;
-
     private static final String TAG = HistoryPohonFragment.class.getSimpleName();
 
-    private static String url_select     = Server.URL + "lihatdatahistory.php";
-    private static String url_delete     = Server.URL + "deletehistory.php";
-
-    public static final String TAG_NO           = "no";
-    public static final String TAG_ID_POHON     = "id_pohon";
-    public static final String TAG_TANGGAL      = "tanggal";
-    public static final String TAG_KEGIATAN     = "kegiatan";
-    public static final String TAG_KETERANGAN   = "keterangan";
-    public static final String TAG_QRCODE       = "qrcode";
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
-
     String tag_json_obj = "json_obj_req";
-
-    public HistoryPohonFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_history_pohon, container, false);
+        return inflater.inflate(R.layout.fragment_history_pohon, container, false);
+    }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // menghubungkan variablel pada layout dan pada java
-        swipe   = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
-        list    = (ListView) v.findViewById(R.id.list);
-        fab2    = (FloatingActionButton) v.findViewById(R.id.fab2);
+        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        list = (ListView) view.findViewById(R.id.list);
+        fab2 = (FloatingActionButton) view.findViewById(R.id.fab2);
 
         // untuk mengisi data dari JSON ke dalam adapter
         adapterHistory = new AdapterHistory(getActivity(), itemList);
@@ -94,17 +86,15 @@ public class HistoryPohonFragment extends Fragment implements SwipeRefreshLayout
         // menamilkan widget refresh
         swipe.setOnRefreshListener(this);
 
-        swipe.post(new Runnable()
-                   {
-                       @Override
-                       public void run() {
-                           swipe.setRefreshing(true);
-                           itemList.clear();
-                           adapterHistory.notifyDataSetChanged();
-                           callVolley();
-                       }
-                   }
-        );
+        swipe.post(new Runnable() {
+            @Override
+            public void run() {
+                swipe.setRefreshing(true);
+                itemList.clear();
+                adapterHistory.notifyDataSetChanged();
+                callVolley();
+            }
+        });
 
         // listview ditekan lama akan menampilkan dua pilihan edit atau delete data
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -141,23 +131,23 @@ public class HistoryPohonFragment extends Fragment implements SwipeRefreshLayout
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         alertDialog = new AlertDialog.Builder(getActivity()).create();
-                                alertDialog.setTitle("Peringatan");
-                                alertDialog.setCancelable(true);
-                                alertDialog.setMessage("Anda yakin ingin menghapusnya?");
-                                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YA", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        delete(nox);
-                                    }
-                                });
+                        alertDialog.setTitle("Peringatan");
+                        alertDialog.setCancelable(true);
+                        alertDialog.setMessage("Anda yakin ingin menghapusnya?");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YA", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                delete(nox);
+                            }
+                        });
 
-                                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "TIDAK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
+                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "TIDAK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
                         alertDialog.show();
                     }
                 });
@@ -173,9 +163,6 @@ public class HistoryPohonFragment extends Fragment implements SwipeRefreshLayout
                 startActivity(new Intent(getActivity(), InputHistoryActivity.class));
             }
         });
-
-        // Inflate the layout for this fragment
-        return v;
     }
 
     @Override
@@ -185,21 +172,14 @@ public class HistoryPohonFragment extends Fragment implements SwipeRefreshLayout
         callVolley();
     }
 
-//    untuk mengosongi edittext pada form
-//    private void kosong(){
-//        txt_no.setText(null);
-//        txt_id_pohon.setText(null);
-//        txt_tanggal.setText(null);
-//        txt_keterangan.setText(null);
-//    }
-
     // untuk menampilkan semua data pada listview
-    private void callVolley(){
+    private void callVolley() {
         itemList.clear();
         adapterHistory.notifyDataSetChanged();
         swipe.setRefreshing(true);
 
         // membuat request JSON
+        String url_select = Server.URL + "lihatdatahistory.php";
         JsonArrayRequest jArr = new JsonArrayRequest(url_select, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -245,12 +225,13 @@ public class HistoryPohonFragment extends Fragment implements SwipeRefreshLayout
     }
 
     // fungsi untuk menghapus
-    private void delete(final String nox){
+    private void delete(final String nox) {
+        String url_delete = Server.URL + "deletehistory.php";
         StringRequest strReq = new StringRequest(Request.Method.POST, url_delete, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Response: " + response.toString());
+                Log.d(TAG, "Response: " + response);
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -287,7 +268,7 @@ public class HistoryPohonFragment extends Fragment implements SwipeRefreshLayout
             @Override
             protected Map<String, String> getParams() {
                 // Posting parameters ke post url
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("no", nox);
 
                 return params;

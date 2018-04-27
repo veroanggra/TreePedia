@@ -1,4 +1,4 @@
-package id.web.proditipolines.amop.Adapter;
+package id.web.proditipolines.amop.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,16 +13,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import id.web.proditipolines.amop.Data.DataPohon;
 import id.web.proditipolines.amop.R;
+import id.web.proditipolines.amop.model.DataPohon;
 
-/**
- * Created by user on 01/06/2017.
- */
+import static id.web.proditipolines.amop.util.Server.URL_MONITOR;
 
 public class AdapterPohon extends BaseAdapter {
     private Activity activity;
-    private LayoutInflater inflater;
     private List<DataPohon> items;
 
     public AdapterPohon(Activity activity, List<DataPohon> items) {
@@ -48,13 +45,8 @@ public class AdapterPohon extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (inflater == null)
-            inflater = (LayoutInflater) activity
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if (convertView == null)
-            convertView = inflater.inflate(R.layout.list_row_pohon, null);
+        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(R.layout.list_row_pohon, null);
 
         ImageView foto_pohon = (ImageView) convertView.findViewById(R.id.imageView);
         TextView id = (TextView) convertView.findViewById(R.id.id);
@@ -70,7 +62,7 @@ public class AdapterPohon extends BaseAdapter {
         jenis_pohon.setText(dataPohon.getJenis_pohon());
         usia_pohon.setText(dataPohon.getUsia_pohon());
         kondisi_pohon.setText(dataPohon.getKondisi_pohon());
-        String url = "http://monitoringpohon.semarangvice.com/dist/img/pohon/" + dataPohon.getFoto_pohon();
+        String url = URL_MONITOR + dataPohon.getFoto_pohon();
         Picasso.with(activity).load(url).error(R.mipmap.ic_launcher).into(foto_pohon);
         return convertView;
     }

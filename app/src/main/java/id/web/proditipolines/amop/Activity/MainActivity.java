@@ -1,8 +1,8 @@
-package id.web.proditipolines.amop.Activity;
+package id.web.proditipolines.amop.activity;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,7 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,20 +22,19 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.HashMap;
 
-import id.web.proditipolines.amop.Fragment.DataPohonFragment;
-import id.web.proditipolines.amop.Fragment.GmapFragment;
-import id.web.proditipolines.amop.Fragment.HistoryPohonFragment;
-import id.web.proditipolines.amop.Fragment.HomeFragment;
 import id.web.proditipolines.amop.R;
-import id.web.proditipolines.amop.Util.CircleTransform;
-import id.web.proditipolines.amop.Util.helper;
+import id.web.proditipolines.amop.fragment.ArtikelFragment;
+import id.web.proditipolines.amop.fragment.DataPohonFragment;
+import id.web.proditipolines.amop.fragment.GmapFragment;
+import id.web.proditipolines.amop.fragment.HistoryPohonFragment;
+import id.web.proditipolines.amop.fragment.HomeFragment;
+import id.web.proditipolines.amop.util.Helper;
 
 public class MainActivity extends AppCompatActivity {
 
-    helper help;
+    Helper help;
     private NavigationView navigationView;
     private DrawerLayout drawer;
-    private View navHeader;
     private ImageView imgProfile;
     private TextView txtName;
     private Toolbar toolbar;
@@ -47,13 +45,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_DATAPOHON = "datapohon";
     private static final String TAG_HISTORYPOHON = "historypohon";
     private static final String TAG_PETA = "peta";
+    private static final String TAG_ARTIKEL = "artikel";
     public static String CURRENT_TAG = TAG_HOME;
 
     //Judul pada toolbar saat berpindah menu
     private String[] activityTitles;
-
-    //penanda ketika pengguna menekan tombol back
-    private boolean shouldLoadHomeFragOnBackPress = true;
 
     private Handler mHandler;
 
@@ -61,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        help = new helper(getApplicationContext());
+        help = new Helper(getApplicationContext());
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         //Navigation view header
-        navHeader = navigationView.getHeaderView(0);
+        View navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
 
@@ -95,10 +91,10 @@ public class MainActivity extends AppCompatActivity {
     private void loadNavHeader() {
 
         //name
-        help = new helper(getApplicationContext());
+        help = new Helper(getApplicationContext());
         HashMap<String, String> user = help.getUserDetail();
-        String username = user.get(helper.USERNAME);
-        txtName.setText("Username : " + username);
+        String username = user.get(Helper.USERNAME);
+        txtName.setText(String.format("Username : %s", username));
 
         //loading profile image
         Glide.with(this).load(R.drawable.ic_logo)
@@ -142,9 +138,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        if (mPendingRunnable != null) {
-            mHandler.post(mPendingRunnable);
-        }
+        mHandler.post(mPendingRunnable);
 
 
         drawer.closeDrawers();
@@ -155,17 +149,15 @@ public class MainActivity extends AppCompatActivity {
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-                HomeFragment homeFragment = new HomeFragment();
-                return homeFragment;
+                return new HomeFragment();
             case 1:
-                DataPohonFragment dataPohon = new DataPohonFragment();
-                return dataPohon;
+                return new DataPohonFragment();
             case 2:
-                HistoryPohonFragment historyPohon = new HistoryPohonFragment();
-                return historyPohon;
+                return new HistoryPohonFragment();
             case 3:
-                GmapFragment peta = new GmapFragment();
-                return peta;
+                return new GmapFragment();
+            case 4:
+                return new ArtikelFragment();
             default:
                 return new HomeFragment();
         }
@@ -182,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpNavigationView() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         navItemIndex = 0;
@@ -199,6 +191,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_peta:
                         navItemIndex = 3;
                         CURRENT_TAG = TAG_PETA;
+                        break;
+
+                    case R.id.nav_artikel:
+                        navItemIndex = 4;
+                        CURRENT_TAG = TAG_ARTIKEL;
                         break;
 
                     default:
@@ -234,19 +231,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed () {
+    public void onBackPressed() {
 
-        if (drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawers();
             return;
         }
-        if (shouldLoadHomeFragOnBackPress) {
-            if (navItemIndex != 0) {
-                navItemIndex = 0;
-                CURRENT_TAG = TAG_HOME;
-                loadHomeFragment();
-                return;
-            }
+        if (navItemIndex != 0) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_HOME;
+            loadHomeFragment();
+            return;
         }
         super.onBackPressed();
     }
@@ -263,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id==R.id.action_logout){
+        if (id == R.id.action_logout) {
             help.logoutUser();
             finish();
             return true;
@@ -272,4 +267,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-};
+}

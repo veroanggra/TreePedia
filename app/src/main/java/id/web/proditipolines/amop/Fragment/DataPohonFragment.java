@@ -1,14 +1,12 @@
-package id.web.proditipolines.amop.Fragment;
-
+package id.web.proditipolines.amop.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,23 +32,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import id.web.proditipolines.amop.Activity.DetailPohonActivity;
-import id.web.proditipolines.amop.Activity.InputPohonActivity;
-import id.web.proditipolines.amop.Activity.MainActivity;
-import id.web.proditipolines.amop.Adapter.AdapterPohon;
-import id.web.proditipolines.amop.App.AppController;
-import id.web.proditipolines.amop.Data.DataPohon;
+import id.web.proditipolines.amop.activity.DetailPohonActivity;
+import id.web.proditipolines.amop.activity.InputPohonActivity;
+import id.web.proditipolines.amop.adapter.AdapterPohon;
+import id.web.proditipolines.amop.base.AppController;
+import id.web.proditipolines.amop.model.DataPohon;
 import id.web.proditipolines.amop.R;
-import id.web.proditipolines.amop.Util.Server;
+import id.web.proditipolines.amop.util.Server;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+import static id.web.proditipolines.amop.util.AppConstans.TAG_FOTO_POHON;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_ID;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_ID_PEGAWAI;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_JENIS_POHON;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_KETERANGAN;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_KONDISI_POHON;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_LAST_UPDATE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_LATITUDE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_LONGTITUDE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_MESSAGE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_QRCODE;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_STATUS;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_SUCCESS;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_USIA_POHON;
+
+
+public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     ListView list;
     SwipeRefreshLayout swipe;
-    List<DataPohon> itemList = new ArrayList<DataPohon>();
+    List<DataPohon> itemList = new ArrayList<>();
     AdapterPohon adapterPohon;
     AlertDialog dialog, alertDialog;
     FloatingActionButton fab;
@@ -58,40 +68,21 @@ public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.On
 
     private static final String TAG = DataPohonFragment.class.getSimpleName();
 
-    private static String url_select     = Server.URL + "lihatdatapohon.php";
-    private static String url_delete     = Server.URL + "deletepohon.php";
-
-    public static final String TAG_ID           = "id";
-    public static final String TAG_ID_PEGAWAI   = "id_pegawai";
-    public static final String TAG_LAST_UPDATE  = "last_update";
-    public static final String TAG_JENIS_POHON  = "jenis_pohon";
-    public static final String TAG_USIA_POHON   = "usia_pohon";
-    public static final String TAG_KONDISI_POHON= "kondisi_pohon";
-    public static final String TAG_LATITUDE     = "latitude";
-    public static final String TAG_LONGTITUDE   = "longtitude";
-    public static final String TAG_FOTO_POHON   = "foto_pohon";
-    public static final String TAG_KETERANGAN   = "keterangan";
-    public static final String TAG_STATUS       = "status";
-    public static final String TAG_QRCODE       = "qrcode";
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
-
     String tag_json_obj = "json_obj_req";
 
-    public DataPohonFragment() {
-        // Required empty public constructor
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_data_pohon, container, false);
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_data_pohon, container, false);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // menghubungkan variablel pada layout dan pada java
-        swipe   = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
-        list    = (ListView) v.findViewById(R.id.list);
-        fab     = (FloatingActionButton) v.findViewById(R.id.fab);
+        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        list = (ListView) view.findViewById(R.id.list);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
         // untuk mengisi data dari JSON ke dalam adapter
         adapterPohon = new AdapterPohon(getActivity(), itemList);
@@ -100,8 +91,7 @@ public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.On
         // menamilkan widget refresh
         swipe.setOnRefreshListener(this);
 
-        swipe.post(new Runnable()
-                   {
+        swipe.post(new Runnable() {
                        @Override
                        public void run() {
                            swipe.setRefreshing(true);
@@ -116,9 +106,7 @@ public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.On
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, View view,
-                                           final int position, long id) {
-                // TODO Auto-generated method stub
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
                 final String idx = itemList.get(position).getId();
 
                 dialog = new AlertDialog.Builder(getActivity()).create();
@@ -165,8 +153,8 @@ public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.On
                 dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "LIHAT DATA", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();final
-                        DataPohon hasil = itemList.get(position);
+                        dialog.dismiss();
+                        final DataPohon hasil = itemList.get(position);
                         Bundle bundle = new Bundle();
                         bundle.putString("id", hasil.getId());
                         bundle.putString("id_pegawai", hasil.getId_pegawai());
@@ -203,7 +191,6 @@ public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.On
             }
         });
         // Inflate the layout for this fragment
-        return v;
     }
 
     @Override
@@ -214,12 +201,13 @@ public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     // untuk menampilkan semua data pada listview
-    private void callVolley(){
+    private void callVolley() {
         itemList.clear();
         adapterPohon.notifyDataSetChanged();
         swipe.setRefreshing(true);
 
         // membuat request JSON
+        String url_select = Server.URL + "lihatdatapohon.php";
         JsonArrayRequest jArr = new JsonArrayRequest(url_select, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -271,12 +259,13 @@ public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     // fungsi untuk menghapus
-    private void delete(final String idx){
+    private void delete(final String idx) {
+        String url_delete = Server.URL + "deletepohon.php";
         StringRequest strReq = new StringRequest(Request.Method.POST, url_delete, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Response: " + response.toString());
+                Log.d(TAG, "Response: " + response);
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -299,7 +288,6 @@ public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.On
                     // JSON error
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
 
@@ -313,15 +301,11 @@ public class DataPohonFragment extends Fragment implements SwipeRefreshLayout.On
             @Override
             protected Map<String, String> getParams() {
                 // Posting parameters ke post url
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("id", idx);
-
                 return params;
             }
-
         };
-
         AppController.getInstance().addToRequestQueue(strReq, tag_json_obj);
     }
-
 }

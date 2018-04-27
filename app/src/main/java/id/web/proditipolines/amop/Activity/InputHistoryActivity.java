@@ -1,20 +1,17 @@
-package id.web.proditipolines.amop.Activity;
+package id.web.proditipolines.amop.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,24 +21,26 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import id.web.proditipolines.amop.App.AppController;
 import id.web.proditipolines.amop.R;
-import id.web.proditipolines.amop.Util.Server;
-import id.web.proditipolines.amop.Util.helper;
+import id.web.proditipolines.amop.base.AppController;
+
+import static id.web.proditipolines.amop.util.AppConstans.TAG_ID_POHON;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_KEGIATAN;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_KETERANGAN;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_NO;
+import static id.web.proditipolines.amop.util.AppConstans.TAG_QRCODE;
+import static id.web.proditipolines.amop.util.Server.URL_INSERT_HISTORY;
+import static id.web.proditipolines.amop.util.Server.URL_UPDATE_HISTORY;
 
 public class InputHistoryActivity extends AppCompatActivity {
 
-    helper help;
-    private Button tblQrScanner;
+    @SuppressLint("StaticFieldLeak")
     public static TextView txtQrCode;
     Button tblSimpan;
     EditText txt_keterangan;
@@ -51,44 +50,41 @@ public class InputHistoryActivity extends AppCompatActivity {
 
     private static final String TAG = InputHistoryActivity.class.getSimpleName();
 
-    private String url_insert = Server.URL + "inserthistory.php";
-    private String url_update = Server.URL + "updatehistory.php";
-
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
 
     String tag_json_obj = "json_obj_req";
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_history);
 
         ActionBar menu = getSupportActionBar();
-        menu.setDisplayShowHomeEnabled(true);
-        menu.setDisplayHomeAsUpEnabled(true);
-        menu.setTitle("Form History Pohon");
-
-
-//      sKegiatan.setOnItemSelectedListener(new ItemSelectedListener());
+        if (menu != null) {
+            menu.setDisplayShowHomeEnabled(true);
+            menu.setDisplayHomeAsUpEnabled(true);
+            menu.setTitle("Form History Pohon");
+        }
 
         tblSimpan = (Button) findViewById(R.id.tblSimpan);
         txtQrCode = (TextView) findViewById(R.id.txtQrCode);
-        tblQrScanner = (Button) findViewById(R.id.tblQrScanner);
+        Button tblQrScanner = (Button) findViewById(R.id.tblQrScanner);
         sKegiatan = (Spinner) findViewById(R.id.kegiatan);
         txt_keterangan = (EditText) findViewById(R.id.keterangan);
         txt_No = (TextView) findViewById(R.id.txtNo);
         txt_idPohon = (TextView) findViewById(R.id.txtIdPohon);
 
-        if(getIntent().getExtras()!=null){
+        if (getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
-            txt_No.setText(bundle.getString("no"));
-            txt_idPohon.setText(bundle.getString("id_pohon"));
-            sKegiatan.setSelection(((ArrayAdapter<String>)sKegiatan.getAdapter()).getPosition(bundle.getString("kegiatan")));
-            txt_keterangan.setText(bundle.getString("keterangan"));
-            txtQrCode.setText(bundle.getString("qrcode"));
+            txt_No.setText(bundle.getString(TAG_NO));
+            txt_idPohon.setText(bundle.getString(TAG_ID_POHON));
+            sKegiatan.setSelection(((ArrayAdapter<String>) sKegiatan.getAdapter()).getPosition(bundle.getString(TAG_KEGIATAN)));
+            txt_keterangan.setText(bundle.getString(TAG_KETERANGAN));
+            txtQrCode.setText(bundle.getString(TAG_QRCODE));
             tblSimpan.setText("Update");
-        }else{
+        } else {
             tblSimpan.setText("Simpan");
         }
 
@@ -109,25 +105,6 @@ public class InputHistoryActivity extends AppCompatActivity {
 
     }
 
-//    public class ItemSelectedListener implements AdapterView.OnItemSelectedListener {
-//      get strings of first item
-//      String firstItem = String.valueOf(sKegiatan.getSelectedItem());
-//        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//            if (firstItem.equals(String.valueOf(sKegiatan.getSelectedItem()))) {
-//            } else {
-//                Toast.makeText(parent.getContext(),
-//                        "Anda telah memilih : " + parent.getItemAtPosition(pos).toString(),
-//                        Toast.LENGTH_LONG).show();
-//            }
-//        }
-//
-//        @Override
-//        public void onNothingSelected(AdapterView<?> arg) {
-//
-//        }
-//    }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -141,10 +118,10 @@ public class InputHistoryActivity extends AppCompatActivity {
     private void simppanUpdate() {
         String url;
         // jika id kosong maka simpan, jika id ada nilainya maka update
-        if(getIntent().getExtras()!=null){
-            url = url_update;
+        if (getIntent().getExtras() != null) {
+            url = URL_UPDATE_HISTORY;
         } else {
-            url = url_insert;
+            url = URL_INSERT_HISTORY;
         }
         //menampilkan progress dialog
         final ProgressDialog loading = ProgressDialog.show(this, "Uploading...", "Please wait...", false, false);
@@ -152,7 +129,7 @@ public class InputHistoryActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, "Response: " + response.toString());
+                        Log.d(TAG, "Response: " + response);
 
                         try {
                             JSONObject jObj = new JSONObject(response);
@@ -183,30 +160,30 @@ public class InputHistoryActivity extends AppCompatActivity {
                         loading.dismiss();
 
                         //menampilkan toast
-                        Toast.makeText(InputHistoryActivity.this, error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                        Log.d(TAG, error.getMessage().toString());
+                        Toast.makeText(InputHistoryActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.d(TAG, error.getMessage());
                     }
-                }){
+                }) {
             @Override
             protected Map<String, String> getParams() {
                 //membuat parameters
-                Map<String,String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
 
                 //menambah parameter yang di kirim ke web servis
                 // jika id kosong maka simpan, jika id ada nilainya maka update
-                if(getIntent().getExtras()!=null){
-                    params.put("no", txt_No.getText().toString().trim());
-                    params.put("id_pohon", txt_idPohon.getText().toString().trim());
-                    params.put("kegiatan", sKegiatan.getSelectedItem().toString().trim());
-                    params.put("keterangan", txt_keterangan.getText().toString().trim());
+                if (getIntent().getExtras() != null) {
+                    params.put(TAG_NO, txt_No.getText().toString().trim());
+                    params.put(TAG_ID_POHON, txt_idPohon.getText().toString().trim());
+                    params.put(TAG_KEGIATAN, sKegiatan.getSelectedItem().toString().trim());
+                    params.put(TAG_KETERANGAN, txt_keterangan.getText().toString().trim());
                 } else {
-                    params.put("kegiatan", sKegiatan.getSelectedItem().toString().trim());
-                    params.put("keterangan", txt_keterangan.getText().toString().trim());
-                    params.put("qrcode", txtQrCode.getText().toString().trim());
+                    params.put(TAG_KEGIATAN, sKegiatan.getSelectedItem().toString().trim());
+                    params.put(TAG_KETERANGAN, txt_keterangan.getText().toString().trim());
+                    params.put(TAG_QRCODE, txtQrCode.getText().toString().trim());
                 }
 
                 //kembali ke parameters
-                Log.d(TAG, ""+params);
+                Log.d(TAG, "" + params);
                 return params;
             }
         };

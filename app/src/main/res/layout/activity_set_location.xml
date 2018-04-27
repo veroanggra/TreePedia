@@ -85,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lokasi"
-        tools:context="id.web.proditipolines.amop.Activity.SetLocationActivity"
+        tools:context="id.web.proditipolines.amop.activity.SetLocationActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
 </LinearLayout>

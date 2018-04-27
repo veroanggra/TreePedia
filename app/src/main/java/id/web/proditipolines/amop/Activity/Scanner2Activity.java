@@ -1,11 +1,10 @@
-package id.web.proditipolines.amop.Activity;
+package id.web.proditipolines.amop.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.google.zxing.Result;
 
-import id.web.proditipolines.amop.R;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class Scanner2Activity extends AppCompatActivity implements ZXingScannerView.ResultHandler {

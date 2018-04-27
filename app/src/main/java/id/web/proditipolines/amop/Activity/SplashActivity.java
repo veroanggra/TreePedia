@@ -1,19 +1,17 @@
-package id.web.proditipolines.amop.Activity;
+package id.web.proditipolines.amop.activity;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ThemedSpinnerAdapter;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
 import id.web.proditipolines.amop.R;
-import id.web.proditipolines.amop.Util.helper;
+import id.web.proditipolines.amop.util.Helper;
 
 public class SplashActivity extends AppCompatActivity {
 
-    helper help;
+    Helper help;
     AVLoadingIndicatorView avLoadingIndicatorView;
 
     @Override
@@ -21,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        help = new helper(getApplicationContext());
+        help = new Helper(getApplicationContext());
 
         avLoadingIndicatorView= (AVLoadingIndicatorView) findViewById(R.id.loading);
         avLoadingIndicatorView.smoothToShow();
@@ -39,6 +37,5 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        return;
     }
 }
