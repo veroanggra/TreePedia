@@ -37,10 +37,8 @@ import static id.web.proditipolines.amop.util.Server.URL_INSERT_ARTIKEL;
 public class InputArtikelActivity extends AppCompatActivity {
     private static final String TAG = InputArtikelActivity.class.getSimpleName();
     public static int RESULT_CODE = 200;
-
     private EditText edtDesc, edtTitle;
     private String titleArtikel, isiArtikel, id_pegawai;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +46,6 @@ public class InputArtikelActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         ActionBar menu = getSupportActionBar();
         if (menu != null) {
             menu.setDisplayShowHomeEnabled(true);
@@ -124,5 +121,4 @@ public class InputArtikelActivity extends AppCompatActivity {
         String tag_json_obj = "json_obj_req";
         AppController.getInstance().addToRequestQueue(stringRequest, tag_json_obj);
     }
-
 }
