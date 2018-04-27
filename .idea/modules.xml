@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\Android\ntaps\TreePediaFork\TreePedia.iml" filepath="D:\Android\ntaps\TreePediaFork\TreePedia.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TreePediaFork.iml" filepath="$PROJECT_DIR$/TreePediaFork.iml" />
+      <module fileurl="file://D:\Android\ntaps\TreePedia\AMOP.iml" filepath="D:\Android\ntaps\TreePedia\AMOP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TreePedia.iml" filepath="$PROJECT_DIR$/TreePedia.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
