@@ -1,6 +1,7 @@
 package id.web.proditipolines.amop.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -19,7 +20,13 @@ public class DetailArtikelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_artikel);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ActionBar menu = getSupportActionBar();
+        if (menu != null) {
+            menu.setDisplayShowHomeEnabled(true);
+            menu.setDisplayHomeAsUpEnabled(true);
+            menu.setTitle("Detail Artikel");
+        }
 
         DataArtikel dataHistory = getIntent().getParcelableExtra(TAG_ARTIKEL);
 
