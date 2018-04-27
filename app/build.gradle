@@ -25,6 +25,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:support-v4:25.4.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -43,7 +44,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.wang.avi:library:2.1.3'
     compile 'info.hoang8f:fbutton:1.0.5'
-    compile 'com.ss.bannerslider:bannerslider:2.0.0'
 
     testCompile 'junit:junit:4.12'
 }
