@@ -1,14 +1,34 @@
 package id.web.proditipolines.amop.model;
 
-/**
- * Created by gilan on 4/27/2018.
- */
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class DataArtikel {
+public class DataArtikel implements Parcelable{
     private String id_artikel, nama_artikel, teks_artikel, waktu_artikel, id_pegawai, nama_pegawai;
 
     public DataArtikel() {
     }
+
+    private DataArtikel(Parcel in) {
+        id_artikel = in.readString();
+        nama_artikel = in.readString();
+        teks_artikel = in.readString();
+        waktu_artikel = in.readString();
+        id_pegawai = in.readString();
+        nama_pegawai = in.readString();
+    }
+
+    public static final Creator<DataArtikel> CREATOR = new Creator<DataArtikel>() {
+        @Override
+        public DataArtikel createFromParcel(Parcel in) {
+            return new DataArtikel(in);
+        }
+
+        @Override
+        public DataArtikel[] newArray(int size) {
+            return new DataArtikel[size];
+        }
+    };
 
     public String getId_artikel() {
         return id_artikel;
@@ -56,5 +76,20 @@ public class DataArtikel {
 
     public void setNama_pegawai(String nama_pegawai) {
         this.nama_pegawai = nama_pegawai;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id_artikel);
+        parcel.writeString(nama_artikel);
+        parcel.writeString(teks_artikel);
+        parcel.writeString(waktu_artikel);
+        parcel.writeString(id_pegawai);
+        parcel.writeString(nama_pegawai);
     }
 }

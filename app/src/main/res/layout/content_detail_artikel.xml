@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="id.web.proditipolines.amop.activity.DetailArtikelActivity"
+    tools:showIn="@layout/activity_detail_artikel">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/titleArtikel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:textColor="@color/hitam"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="TITLE" />
+
+        <TextView
+            android:id="@+id/tanggalArtikel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="right"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            tools:ignore="RtlHardcoded"
+            tools:text="tanggal" />
+
+        <TextView
+            android:id="@+id/isiArtikel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/hitam"
+            android:textSize="18sp"
+            tools:text="teks" />
+
+        <TextView
+            android:id="@+id/pegawaiArtikel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
+            tools:text="by" />
+    </LinearLayout>
+</ScrollView>

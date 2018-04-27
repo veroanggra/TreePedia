@@ -1,12 +1,9 @@
 package id.web.proditipolines.amop.util;
 
-/**
- * Created by gilan on 4/26/2018.
- */
-
 public class AppConstans {
 
     public static final String TAG_ID = "id";
+    public static final String TAG_ARTIKEL = "artikel";
     public static final String TAG_ID_PEGAWAI = "id_pegawai";
     public static final String TAG_LAST_UPDATE = "last_update";
     public static final String TAG_JENIS_POHON = "jenis_pohon";
@@ -27,7 +24,6 @@ public class AppConstans {
     public static final String TAG_FILENAME = "filename";
     public final static String TAG_USERNAME = "username";
     public final static String TAG_PASSWORD = "password";
-
     public static final String TAG_ID_ARTIKEL = "id_artikel";
     public static final String TAG_NAMA_ARTIKEL = "nama_artikel";
     public static final String TAG_TEKS_ARTIKEL = "teks_artikel";

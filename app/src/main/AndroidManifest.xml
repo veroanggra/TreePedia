@@ -65,6 +65,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="id.web.proditipolines.amop.activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.DetailArtikelActivity"
+            android:label="@string/title_activity_detail_artikel"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="id.web.proditipolines.amop.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

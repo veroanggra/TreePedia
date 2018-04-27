@@ -2,6 +2,7 @@ package id.web.proditipolines.amop.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,11 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.web.proditipolines.amop.R;
+import id.web.proditipolines.amop.activity.DetailArtikelActivity;
 import id.web.proditipolines.amop.model.DataArtikel;
+
+import static id.web.proditipolines.amop.util.AppConstans.TAG_ARTIKEL;
+import static id.web.proditipolines.amop.util.Helper.KonversiTanggal;
 
 public class AdapterArtikel extends BaseAdapter {
     private Activity activity;
@@ -39,7 +44,7 @@ public class AdapterArtikel extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.list_row_artikel, null);
@@ -48,13 +53,20 @@ public class AdapterArtikel extends BaseAdapter {
         TextView desc = (TextView) convertView.findViewById(R.id.txtDesc);
         TextView tanggal = (TextView) convertView.findViewById(R.id.txtTanggal);
         TextView nama = (TextView) convertView.findViewById(R.id.txtNamaPegawai);
-
-        DataArtikel dataHistory = items.get(position);
-
+        final DataArtikel dataHistory = items.get(position);
         title.setText(dataHistory.getNama_artikel());
         desc.setText(dataHistory.getTeks_artikel());
-        tanggal.setText(dataHistory.getWaktu_artikel());
+        tanggal.setText(KonversiTanggal(dataHistory.getWaktu_artikel()));
         nama.setText(dataHistory.getNama_pegawai());
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pindah = new Intent(activity, DetailArtikelActivity.class);
+                pindah.putExtra(TAG_ARTIKEL, dataHistory);
+                activity.startActivity(pindah);
+            }
+        });
         return convertView;
     }
 }
