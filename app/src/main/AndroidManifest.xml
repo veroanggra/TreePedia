@@ -55,7 +55,16 @@
         </provider>
 
         <activity android:name=".activity.DetailPohonActivity" />
-        <activity android:name=".activity.SetLocationActivity"></activity>
+        <activity android:name=".activity.SetLocationActivity" />
+        <activity
+            android:name=".activity.InputArtikelActivity"
+            android:label="@string/title_activity_add_artikel"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="id.web.proditipolines.amop.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -34,4 +34,6 @@
     <string name="isi_artikel">Isi artikel</string>
     <string name="dot">...</string>
     <string name="submit">submit</string>
+    <string name="title_activity_add_artikel">AddArtikelActivity</string>
+    <string name="judul_artikel">Judul artikel</string>
 </resources>

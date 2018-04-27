@@ -17,4 +17,6 @@
     <color name="color_with">#ffffff</color>
     <color name="color_white">#ffffff</color>
     <color name="color_blue">#2e8ece</color>
+    <color name="putih">#fff</color>
+    <color name="hitam">#000</color>
 </resources>

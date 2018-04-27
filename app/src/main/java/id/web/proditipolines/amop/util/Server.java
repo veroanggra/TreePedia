@@ -5,6 +5,8 @@ public class Server {
     public static final String URL_UPDATE_HISTORY = URL + "updatehistory.php";
     public static final String URL_INSERT_HISTORY = URL + "inserthistory.php";
     public static final String URL_UPDATE_POHON = URL + "updatepohon.php";
-    public static final String URL_LOGIN =URL + "login.php";
+    public static final String URL_LOGIN = URL + "login.php";
+    public static final String URL_ARTIKEL = URL + "dataartikel.php";
+    public static final String URL_INSERT_ARTIKEL = URL + "insertartikel.php";
     public static final String URL_MONITOR = "http://monitoringpohon.semarangvice.com/dist/img/pohon/";
 }

@@ -27,4 +27,10 @@ public class AppConstans {
     public static final String TAG_FILENAME = "filename";
     public final static String TAG_USERNAME = "username";
     public final static String TAG_PASSWORD = "password";
+
+    public static final String TAG_ID_ARTIKEL = "id_artikel";
+    public static final String TAG_NAMA_ARTIKEL = "nama_artikel";
+    public static final String TAG_TEKS_ARTIKEL = "teks_artikel";
+    public static final String TAG_WAKTU_ARTIKEL = "waktu_artikel";
+    public static final String TAG_NAMA_PEGAWAI = "nama";
 }
